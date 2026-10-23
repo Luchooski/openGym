@@ -83,8 +83,9 @@ RUN apk add --no-cache bubblewrap \
 # path inside it: docs/SELF_HOSTING tells owners to back up with `tar czf … data/`, and a live
 # refresh token has no business riding along in every archive that instruction produces. Owned
 # by `coach` because the job that writes it has already dropped to that user.
+# No VOLUME here: the mount comes from docker-compose.yml, and Railway rejects any Dockerfile
+# that declares one, even in a stage it doesn't build.
 RUN mkdir -p /coach-auth && chown coach:coach /coach-auth && chmod 700 /coach-auth
-VOLUME ["/coach-auth"]
 
 # ---------------------------------------------------------------------------------------------
 # Last, so that a plain `docker build ./api` keeps producing the runtime-free image.
